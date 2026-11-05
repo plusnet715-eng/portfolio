@@ -9,12 +9,17 @@ on:
       - main
   workflow_dispatch:
 
+concurrency:
+  group: pluswrld-portfolio-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 permissions:
   contents: read
 
 jobs:
   build:
     name: Typecheck and production build
+    timeout-minutes: 15
     runs-on: ubuntu-latest
     env:
       NEXT_PUBLIC_SANITY_PROJECT_ID: a8mywjme
@@ -30,7 +35,7 @@ jobs:
         with:
           node-version: 22
       - name: Install dependencies
-        run: npm install
+        run: npm install --no-audit --no-fund --prefer-offline
       - name: Typecheck
         run: npx tsc --noEmit
       - name: Build Next.js application
@@ -38,6 +43,7 @@ jobs:
 
   deploy-sanity-schema:
     name: Deploy Sanity schema when credentials are configured
+    timeout-minutes: 5
     runs-on: ubuntu-latest
     if: github.event_name == 'workflow_dispatch' || github.ref == 'refs/heads/brand-direction-b'
     env:
