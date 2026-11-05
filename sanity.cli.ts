@@ -4,5 +4,6 @@ export default defineCliConfig({
  api:{
   projectId:process.env.NEXT_PUBLIC_SANITY_PROJECT_ID||'a8mywjme',
   dataset:process.env.NEXT_PUBLIC_SANITY_DATASET||'production'
- }
+ },
+ project:{basePath:'/studio'}
 })
