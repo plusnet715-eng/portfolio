@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 900" role="img" aria-labelledby="title desc">
+<title id="title">Professional portrait placeholder</title><desc id="desc">A temporary abstract Pluswrld brand visual, to be replaced with Paul's professional portrait.</desc>
+<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#eaf8ec"/><stop offset=".55" stop-color="#b7efad"/><stop offset="1" stop-color="#078734"/></linearGradient><radialGradient id="r"><stop stop-color="#62e607" stop-opacity=".65"/><stop offset="1" stop-color="#08b725" stop-opacity="0"/></radialGradient></defs>
+<rect width="800" height="900" fill="url(#g)"/><circle cx="630" cy="170" r="270" fill="url(#r)"/><circle cx="180" cy="750" r="300" fill="url(#r)"/>
+<path d="M0 690 800 210v690H0Z" fill="#07100a" opacity=".08"/><g fill="#07100a"><text x="400" y="440" text-anchor="middle" font-family="Arial,sans-serif" font-size="210" font-weight="700" letter-spacing="-18">P+</text><text x="400" y="520" text-anchor="middle" font-family="Arial,sans-serif" font-size="26" font-weight="700" letter-spacing="7">PLUSWRLD</text></g>
+<text x="400" y="830" text-anchor="middle" font-family="Arial,sans-serif" font-size="18" letter-spacing="3" fill="#07100a" opacity=".65">PORTRAIT TO BE ADDED</text></svg>
