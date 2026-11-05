@@ -3,8 +3,10 @@ import {structureTool} from 'sanity/structure'
 import {presentationTool} from 'sanity/presentation'
 import {schemaTypes} from './sanity/schemaTypes'
 import {resolve} from './sanity/presentation/resolve'
+
 export default defineConfig({
- name:'pluswrld',title:'Pluswrld Content Studio',
+ name:'pluswrld',
+ title:'Pluswrld Content Studio',
  projectId:process.env.NEXT_PUBLIC_SANITY_PROJECT_ID||'a8mywjme',
  dataset:process.env.NEXT_PUBLIC_SANITY_DATASET||'production',
  plugins:[
@@ -12,8 +14,8 @@ export default defineConfig({
   presentationTool({
    resolve,
    previewUrl:{
-    initial:process.env.SANITY_STUDIO_PREVIEW_URL||'http://localhost:3000',
-    previewMode:{enable:'/api/draft-mode/enable?secret='+ (process.env.SANITY_PREVIEW_SECRET||'')}
+    initial:process.env.SANITY_STUDIO_PREVIEW_URL||process.env.NEXT_PUBLIC_SITE_URL||'http://localhost:3000',
+    previewMode:{enable:'/api/draft-mode/enable',disable:'/api/draft-mode/disable'}
    }
   })
  ],
