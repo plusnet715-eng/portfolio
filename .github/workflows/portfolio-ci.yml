@@ -1,0 +1,58 @@
+name: Pluswrld portfolio checks
+
+on:
+  push:
+    branches:
+      - brand-direction-b
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Typecheck and production build
+    runs-on: ubuntu-latest
+    env:
+      NEXT_PUBLIC_SANITY_PROJECT_ID: a8mywjme
+      NEXT_PUBLIC_SANITY_DATASET: production
+      NEXT_PUBLIC_SANITY_API_VERSION: '2026-11-05'
+      NEXT_PUBLIC_ADOBE_FONTS_KIT: zpa7ccg
+      NEXT_PUBLIC_SITE_URL: https://pluswrld.vercel.app
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install dependencies
+        run: npm install
+      - name: Typecheck
+        run: npx tsc --noEmit
+      - name: Build Next.js application
+        run: npm run build
+
+  deploy-sanity-schema:
+    name: Deploy Sanity schema when credentials are configured
+    runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch' || github.ref == 'refs/heads/brand-direction-b'
+    env:
+      SANITY_AUTH_TOKEN: ${{ secrets.SANITY_AUTH_TOKEN }}
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Deploy dataset schema
+        if: env.SANITY_AUTH_TOKEN != ''
+        run: npx sanity@latest schemas deploy
+      - name: Skip schema deployment until a token is configured
+        if: env.SANITY_AUTH_TOKEN == ''
+        run: echo "Set the SANITY_AUTH_TOKEN repository secret to enable schema deployment."
