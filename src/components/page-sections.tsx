@@ -5,15 +5,14 @@ import {useOptimistic} from '@sanity/visual-editing/react'
 import type {SanityDocument} from '@sanity/client'
 import Link from 'next/link'
 import type {CmsPage,PageSection} from '@/sanity/lib/pages'
-import type {FAQ,HelpArea,ProcessStep,Project,Service} from '@/lib/content'
+import type {FAQ,ProcessStep,Project,Service,SiteSettings} from '@/lib/content'
 import {ProjectCard} from '@/components/project-card'
 import {ServiceCard} from '@/components/service-card'
 import {FaqList} from '@/components/faq-list'
 import {ContactForm} from '@/components/contact-form'
 import {CtaBand} from '@/components/cta-band'
-import type {fallbackSettings} from '@/lib/content'
 
-type Settings=typeof fallbackSettings
+type Settings=SiteSettings
 type Props={
  page:CmsPage
  settings:Settings
