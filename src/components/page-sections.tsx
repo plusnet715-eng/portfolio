@@ -56,7 +56,7 @@ function SectionContent({section,settings,services,projects,steps,faqs}:{section
  switch(section._type){
   case 'heroSection':{
    const imageUrl=section.image?.asset?.url||settings.portraitUrl
-   return <section className="home-hero shell cms-hero">
+   return <section className={`home-hero shell cms-hero ${imageUrl?'cms-hero-with-image':'cms-hero-text-only'}`}>
     <div className="hero-copy">
      {section.eyebrow?<span className="eyebrow"><i/>{section.eyebrow}</span>:null}
      <h1>{section.title}</h1>
