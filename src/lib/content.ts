@@ -1,5 +1,6 @@
 import {draftMode} from 'next/headers'
 import {createClient} from 'next-sanity'
+export type SiteSettings={name:string;fullName:string;role:string;tagline:string;heroEyebrow:string;heroTitle:string;heroDescription:string;email:string;location:string;availability:string;aboutIntro:string;aboutStory:string;aboutPhilosophy:string;portraitUrl?:string}
 export type Service={_id?:string;title:string;eyebrow:string;description:string;icon:string;deliverables:string[];suitableFor:string;order?:number}
 export type Project={_id?:string;title:string;slug:string;category:string;summary:string;intro:string;challenge:string;approach:string;deliverables:string[];tools:string[];outcome:string;status:string;featured:boolean;coverTone:string;liveUrl?:string;order?:number;coverImage?:string;gallery?:string[]}
 export type FAQ={_id?:string;question:string;answer:string;category:string;order?:number}
