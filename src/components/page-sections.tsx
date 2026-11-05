@@ -25,7 +25,7 @@ type Props={
 const attributeConfig={
  projectId:process.env.NEXT_PUBLIC_SANITY_PROJECT_ID||'a8mywjme',
  dataset:process.env.NEXT_PUBLIC_SANITY_DATASET||'production',
- baseUrl:process.env.NEXT_PUBLIC_SANITY_STUDIO_URL||'http://localhost:3000/studio'
+ baseUrl:process.env.NEXT_PUBLIC_SANITY_STUDIO_URL||(process.env.NEXT_PUBLIC_SITE_URL?process.env.NEXT_PUBLIC_SITE_URL+'/studio':'http://localhost:3000/studio')
 }
 type PageDocument=SanityDocument<{sections?:PageSection[]}>
 
