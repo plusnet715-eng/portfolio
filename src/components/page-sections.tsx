@@ -29,11 +29,11 @@ const attributeConfig={
 type PageDocument=SanityDocument<{sections?:PageSection[]}>
 
 export function PageSections({page,settings,services,projects,steps,faqs}:Props){
- const [sections]=useOptimistic<PageSection[]|undefined,PageDocument>(
+ const sections=useOptimistic<PageSection[]|undefined,PageDocument>(
   page.sections,
   (current,action)=>{
-   if(action.id===page._id&&action.document.sections)return action.document.sections
-   return current
+   if(action.id!==page._id)return current
+   return action.document.sections??current
   }
  )
  if(!sections?.length)return null
