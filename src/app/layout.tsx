@@ -5,6 +5,7 @@ import {VisualEditing} from 'next-sanity/visual-editing'
 import './globals.css'
 import {SiteHeader} from '@/components/site-header'
 import {SiteFooter} from '@/components/site-footer'
+import {SiteShell} from '@/components/site-shell'
 
 const workSans=Work_Sans({subsets:['latin'],variable:'--font-work-sans',display:'swap'})
 const adobeKit=process.env.NEXT_PUBLIC_ADOBE_FONTS_KIT||'zpa7ccg'
@@ -26,9 +27,7 @@ export default async function RootLayout({children}:{children:React.ReactNode}){
  return <html lang="en">
   <head>{adobeKit?<link rel="stylesheet" href={`https://use.typekit.net/${adobeKit}.css`}/>:null}</head>
   <body className={workSans.variable}>
-   <SiteHeader/>
-   <main>{children}</main>
-   <SiteFooter/>
+   <SiteShell header={<SiteHeader/>} footer={<SiteFooter/>}>{children}</SiteShell>
    {preview?<VisualEditing/>:null}
   </body>
  </html>
