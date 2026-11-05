@@ -1,3 +1,4 @@
+import {draftMode} from 'next/headers'
 import {createClient} from 'next-sanity'
 export type Service={_id?:string;title:string;eyebrow:string;description:string;icon:string;deliverables:string[];suitableFor:string;order?:number}
 export type Project={_id?:string;title:string;slug:string;category:string;summary:string;intro:string;challenge:string;approach:string;deliverables:string[];tools:string[];outcome:string;status:string;featured:boolean;coverTone:string;liveUrl?:string;order?:number;coverImage?:string;gallery?:string[]}
@@ -12,7 +13,24 @@ export const fallbackProcess:ProcessStep[]=[{number:'01',title:'Discover',descri
 export const fallbackFaqs:FAQ[]=[{category:'Working together',question:'What happens before a project starts?',answer:'We first clarify the business goal, current setup, required deliverables, access and constraints. I then provide a defined scope and implementation plan for agreement before work begins.'},{category:'Working together',question:'Do you work with existing websites and stores?',answer:'Yes. I can work with an existing Shopify store, website, no-code app or connected workflow. I review the current setup first so the recommended work addresses the actual issue.'},{category:'Services',question:'Which platforms do you work with?',answer:'My work includes Shopify, Webflow, Bubble, FlutterFlow, Glide, Adalo, Whop, Skool, Discord and selected AI, CRM and integration tools. The right platform depends on the project.'},{category:'Services',question:'Do you manage paid advertising campaigns?',answer:'My core portfolio services focus on digital infrastructure, store and channel setup, integrations and implementation. Paid campaign management is not included by default and must be explicitly discussed and scoped.'},{category:'Project scope',question:'How do pricing and timelines work?',answer:'Pricing and timelines depend on the deliverables, complexity, integrations, content readiness and access requirements. I confirm these in a written scope or proposal before starting.'},{category:'Project scope',question:'Can you provide ongoing support after launch?',answer:'Yes, where ongoing support is appropriate. The responsibilities, response expectations, task limits and billing arrangement are agreed separately rather than assumed to be unlimited.'},{category:'Website editing',question:'Will I be able to edit this website myself?',answer:'Yes. The planned Sanity content-management interface is designed for editing website content, services, case studies, FAQs and selected page sections. Structural design and code changes remain in the source code.'}]
 const projectId=process.env.NEXT_PUBLIC_SANITY_PROJECT_ID||'a8mywjme',dataset=process.env.NEXT_PUBLIC_SANITY_DATASET||'production',apiVersion=process.env.NEXT_PUBLIC_SANITY_API_VERSION||'2026-11-05'
 const sanityClient=projectId?createClient({projectId,dataset,apiVersion,useCdn:true,perspective:'published'}):null
-async function fetchSanity<T>(query:string,fallback:T,params?:Record<string,unknown>):Promise<T>{if(!sanityClient)return fallback;try{const result=await sanityClient.fetch<T>(query,params??{},{next:{revalidate:60}});if(result==null||(Array.isArray(result)&&result.length===0))return fallback;return result as T}catch(error){console.error('Sanity fetch failed; using site defaults.',error);return fallback}}
+async function fetchSanity<T>(query:string,fallback:T,params?:Record<string,unknown>):Promise<T>{
+ if(!sanityClient)return fallback
+ try{
+  const preview=(await draftMode()).isEnabled
+  const configured=sanityClient.withConfig({
+   perspective:preview?'drafts':'published',
+   useCdn:!preview,
+   token:preview?process.env.SANITY_API_READ_TOKEN:undefined,
+   stega:preview?{enabled:true,studioUrl:process.env.NEXT_PUBLIC_SANITY_STUDIO_URL||'http://localhost:3000/studio'}:false
+  })
+  const result=await configured.fetch<T>(query,params??{},{next:{revalidate:preview?0:60}})
+  if(result==null||(Array.isArray(result)&&result.length===0))return fallback
+  return result as T
+ }catch(error){
+  console.error('Sanity fetch failed; using site defaults.',error)
+  return fallback
+ }
+}
 export async function getSettings(){return fetchSanity<typeof fallbackSettings>(`*[_type == "siteSettings"][0]{name,fullName,role,tagline,heroEyebrow,heroTitle,heroDescription,email,location,availability,aboutIntro,aboutStory,aboutPhilosophy,"portraitUrl":portrait.asset->url}`,fallbackSettings)}
 export async function getServices(){return fetchSanity<Service[]>(`*[_type == "service"] | order(order asc){_id,title,eyebrow,description,icon,deliverables,suitableFor,order}`,fallbackServices)}
 export async function getProjects(){return fetchSanity<Project[]>(`*[_type == "project"] | order(order asc){_id,title,"slug":slug.current,category,summary,intro,challenge,approach,deliverables,tools,outcome,status,featured,coverTone,liveUrl,order,"coverImage":coverImage.asset->url,"gallery":gallery[].asset->url}`,fallbackProjects)}
