@@ -1,7 +1,15 @@
 import {createClient} from 'next-sanity'
-const projectId=process.env.NEXT_PUBLIC_SANITY_PROJECT_ID
-export const client=projectId?createClient({
- projectId,dataset:process.env.NEXT_PUBLIC_SANITY_DATASET||'production',
+
+const projectId=process.env.NEXT_PUBLIC_SANITY_PROJECT_ID||'a8mywjme'
+const dataset=process.env.NEXT_PUBLIC_SANITY_DATASET||'production'
+
+export const client=createClient({
+ projectId,
+ dataset,
  apiVersion:process.env.NEXT_PUBLIC_SANITY_API_VERSION||'2026-11-05',
- useCdn:false,stega:{studioUrl:process.env.NEXT_PUBLIC_SANITY_STUDIO_URL||'http://localhost:3333'}
-}):null
+ useCdn:true,
+ stega:{
+  studioUrl:process.env.NEXT_PUBLIC_SANITY_STUDIO_URL||'http://localhost:3000/studio',
+  enabled:false,
+ }
+})
