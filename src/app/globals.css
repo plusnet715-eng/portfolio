@@ -337,8 +337,29 @@ em { color: var(--green-deep); font-style: normal; }
 .contact-detail strong { display: block; color: #89948B; font-size: .62rem; font-weight: 700; letter-spacing: .14em; }
 @media (max-width: 850px) {
   .brand-logo { width: 40px; height: 40px; }
+  .form-grid { grid-template-columns: 1fr; }
+  .form-grid .form-full { grid-column: auto; }
   .cms-image-split { grid-template-columns: 1fr; }
 }
+
+
+.contact-form .form-heading h2 { margin: 13px 0 10px; font-size: clamp(2rem,3.2vw,2.8rem); }
+.contact-form .form-heading p { margin: 0 0 4px; color: #6B766E; font-size: .86rem; }
+.form-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 16px; }
+.form-grid label { display: grid; gap: 7px; color: #435047; font-size: .76rem; font-weight: 600; }
+.form-grid input, .form-grid select, .form-grid textarea {
+ width: 100%; min-width: 0; padding: 13px 14px; border: 1px solid #DCE5DD;
+ border-radius: 3px; outline: none; color: var(--ink); background: #FBFDFC;
+ font-size: .86rem; font-weight: 400;
+}
+.form-grid input:focus, .form-grid select:focus, .form-grid textarea:focus {
+ border-color: var(--green); box-shadow: 0 0 0 3px rgba(8,183,37,.1);
+}
+.form-grid textarea { min-height: 145px; resize: vertical; }
+.form-grid .form-full { grid-column: 1 / -1; }
+.form-submit-row { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+.form-submit-row > span { color: #7D887F; font-size: .7rem; }
+.form-note { display: flex; align-items: center; gap: 8px; padding: 12px 14px; color: #075A1B; background: var(--green-soft); font-size: .8rem; }
 
 @media (max-width: 1050px) {
   .main-nav { gap: 12px; }
