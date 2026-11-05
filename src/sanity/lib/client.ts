@@ -9,7 +9,7 @@ export const client=createClient({
  apiVersion:process.env.NEXT_PUBLIC_SANITY_API_VERSION||'2026-11-05',
  useCdn:true,
  stega:{
-  studioUrl:process.env.NEXT_PUBLIC_SANITY_STUDIO_URL||'http://localhost:3000/studio',
+  studioUrl:process.env.NEXT_PUBLIC_SANITY_STUDIO_URL||(process.env.NEXT_PUBLIC_SITE_URL?process.env.NEXT_PUBLIC_SITE_URL+'/studio':'http://localhost:3000/studio'),
   enabled:false,
  }
 })
