@@ -1,0 +1,2 @@
+import {defineField,defineType} from 'sanity'
+export default defineType({name:'processStep',title:'My process',type:'document',fields:[defineField({name:'number',title:'Step number',type:'string'}),defineField({name:'title',title:'Step title',type:'string',validation:r=>r.required()}),defineField({name:'description',title:'Short description',type:'text',rows:2}),defineField({name:'detail',title:'Detailed explanation',type:'text',rows:4}),defineField({name:'order',title:'Display order',type:'number'})],preview:{select:{title:'title',subtitle:'number'}}})
