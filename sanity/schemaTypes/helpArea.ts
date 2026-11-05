@@ -1,0 +1,2 @@
+import {defineField,defineType} from 'sanity'
+export default defineType({name:'helpArea',title:'How I can help you',type:'document',fields:[defineField({name:'title',title:'Situation / title',type:'string',validation:r=>r.required()}),defineField({name:'problem',title:'What may be happening',type:'text',rows:3}),defineField({name:'solution',title:'How I can help',type:'text',rows:3}),defineField({name:'service',title:'Related services',type:'string'}),defineField({name:'order',title:'Display order',type:'number'})],preview:{select:{title:'title',subtitle:'service'}}})
